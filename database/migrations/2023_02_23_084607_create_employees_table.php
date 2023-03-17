@@ -19,8 +19,8 @@ class CreateEmployeesTable extends Migration
             $table->id();
             $table->text('first_name');
             $table->text('last_name');
-            $table->text('email')->unique();
-            $table->text('phone_number')->unique();
+            $table->string('email')->unique();
+            $table->string('phone_number')->unique();
             $table->text('picture');
             $table->date('dob');
             $table->unsignedBigInteger('team_id')->nullable();
