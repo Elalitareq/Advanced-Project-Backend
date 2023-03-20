@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    libonig-dev
+    libonig-dev \
+    nginx
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -46,6 +47,9 @@ RUN chmod 775 storage/logs \
         /var/www/storage/framework/sessions \
         /var/www/storage/framework/views
 
-# Expose port 9000 and start php-fpm server
-EXPOSE 9000
-CMD ["php-fpm"]
+# Copy the Nginx configuration file
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port 80 and start both Nginx and PHP-FPM
+EXPOSE 80
+CMD service nginx start && php-fpm
