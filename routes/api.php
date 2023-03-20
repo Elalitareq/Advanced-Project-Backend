@@ -90,4 +90,8 @@ Route::middleware(['authorize'])->group(function () {
     Route::post('/roles', [RoleController::class, 'store']);
     Route::patch('/roles/{id}', [RoleController::class, 'update']);
     Route::delete('/roles/{id}', [RoleController::class, 'destroy']);
+
+
+    //home page
+    Route::get("/home", [EmployeeController::class,'getHomeData']);
 });

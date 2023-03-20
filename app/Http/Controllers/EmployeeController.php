@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use App\Models\Evaluation;
+use App\Models\Project;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -72,7 +73,7 @@ class EmployeeController extends Controller
 
     public function getEmployee($id)
     {
-        $employee = Employee::find($id);
+        $employee = Employee::with("team")->find($id);
 
         if (!$employee) {
             return response()->json(
@@ -242,5 +243,18 @@ class EmployeeController extends Controller
         return response()->json([
             'message' => 'Employee deleted successfully',
         ]);
+    }
+    public function getHomeData(){
+        $employee=Employee::all();
+        $employeeCount=count($employee);
+        $project=Project::all();
+        $projectCount=count($project);
+        $evaluations=Evaluation::all();
+        return response()->json([
+            "employeeCount"=>$employeeCount,
+            "projectCount"=>$projectCount,
+            "evaluations"=>$evaluations
+        ]);
+
     }
 }
